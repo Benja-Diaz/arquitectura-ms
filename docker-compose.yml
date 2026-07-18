@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  ms-usuario:
+    build:
+      context: ./ms-usuario
+      dockerfile: Dockerfile
+    image: mi-registro/ms-usuario:latest
+    ports:
+      - "8080:8080"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  ms-producto:
+    build:
+      context: ./ms-producto
+      dockerfile: Dockerfile
+    image: mi-registro/ms-producto:latest
+    ports:
+      - "8082:8082"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  ms-pedidos:
+    build:
+      context: ./ms-pedidos
+      dockerfile: Dockerfile
+    image: mi-registro/ms-pedidos:latest
+    ports:
+      - "8083:8083"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+networks:
+  default:
+    name: red-swarm-ms
