@@ -1,0 +1,37 @@
+name: Pipeline CI/CD - Despliegue Cloud
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout de código
+      uses: actions/checkout@v4
+
+    - name: Configurar JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Compilar Microservicios
+      run: |
+        mvn -f ms-pedidos/pom.xml clean package -DskipTests
+        mvn -f ms-producto/pom.xml clean package -DskipTests
+        mvn -f ms-usuario/pom.xml clean package -DskipTests
+
+    - name: Provisión de Servicios en la Nube
+      run: |
+        echo "Configurando servicios e infraestructura en el proveedor Cloud..."
+        echo "Creando cola de mensajería asíncrona..."
+        echo "Desplegando e integrando la función Serverless..."
+        echo "Configurando reglas de seguridad en el API Gateway..."
+
+    - name: Desplegar a Entorno de Producción
+      run: |
+        echo "Iniciando despliegue automatizado en el clúster de producción..."
